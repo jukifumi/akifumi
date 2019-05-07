@@ -7,6 +7,9 @@ public class Turn : MonoBehaviour {
     float time;
     public bool onePush;//
 
+    public float blackOrWhit;
+    bool changeColor;
+
     [SerializeField]
     GameObject Even, Odd;//奇数、偶数
     // Use this for initialization
@@ -15,6 +18,8 @@ public class Turn : MonoBehaviour {
         time = 0;
         turn = 1;
         onePush = false;
+        changeColor = false;
+        blackOrWhit = Mathf.Floor(Random.Range(0.0f, 1.9f));//黒か白かランダムで決める
     }
 
     // Update is called once per frame
@@ -30,13 +35,24 @@ public class Turn : MonoBehaviour {
             Even.gameObject.SetActive(false);
             Odd.gameObject.SetActive(true);
         }
+        Debug.Log(blackOrWhit);
         if (Input.GetKeyDown(KeyCode.A)==true || Input.GetKeyDown(KeyCode.S) == true || Input.GetKeyDown(KeyCode.D) == true)
         {
-            //if (onePush == false)
-            //{
-                turn++;
+            changeColor = false;
+            turn++;
 
+            if(blackOrWhit==0&& changeColor==false)
+            {
+                blackOrWhit = 1;
+                changeColor = true;
+            }
+            if(blackOrWhit==1 && changeColor == false)
+            {
+                blackOrWhit = 0;
+                changeColor = true;
+            }
             //}
+             //changeColor = true;
         }
 
     }

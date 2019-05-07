@@ -11,6 +11,8 @@ public class CollCreate : MonoBehaviour
     [SerializeField]
     GameObject[] collBox;
 
+    GameObject[] Cards=new GameObject[64];
+
     //静的定数
     private const int MAX_CARDS = 64;//複製するオブジェクトの最大数
 
@@ -20,18 +22,26 @@ public class CollCreate : MonoBehaviour
         //オブジェクトを複製する
         for(var i=0; i < MAX_CARDS; i++)
         {
-            GameObject newCards = Instantiate(collBox[0]);
-            newCards.transform.position = new Vector3(-4.3f + (i % 8 * interval), 0, -4.3f + (i / 8 * interval));//盤面のマスに合うように間隔をあける
-            newCards.GetComponent<MeshRenderer>().enabled = false;//オブジェクトを見えないようにする
+            Cards[i] = Instantiate(collBox[0]);
+            Cards[i].transform.position = new Vector3(-4.3f + (i % 8 * interval), 0, -4.3f + (i / 8 * interval));//盤面のマスに合うように間隔をあける
+            Cards[i].GetComponent<MeshRenderer>().enabled = false;//オブジェクトを見えないようにする
 
-            //スクリプトをアタッチする
-            newCards.AddComponent<CardData>();
-            newCards.AddComponent<SelectPlace>();
+            ////スクリプトをアタッチする
+            //Cards[i].AddComponent<SelectPlace>();
+            //Cards[i].AddComponent<PutTheCard>();
+            //Cards[i].AddComponent<IamCard>();
+            //Cards[i].AddComponent<TurnOver>();
+            //Cards[i].AddComponent<CountTop>();
 
-            //cardNumberの値を変える
-            newCards.GetComponent<CardData>().cardNumber = i + 1;
-            newCards.GetComponent<SelectPlace>().cardNumber = i + 1;
+
+
+            ////cardNumberの値を変える
+            //Cards[i].GetComponent<IamCard>().cardNumber = i + 1;
         }
+
+
+
+
     }
 
     // Update is called once per frame
