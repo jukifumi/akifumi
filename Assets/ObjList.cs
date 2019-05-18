@@ -12,17 +12,12 @@ public class ObjList : MonoBehaviour
     {
         isEnd = false;
         upFrontObj.Clear();
+        floatObj.Clear();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if(isEnd == true)
-        //{
-        //    for(int i = 0; i < upFrontObj.Count; i++)
-        //    {
-        //        upFrontObj[i].GetComponent<Renderer>().material.color = Color.white;
-        //    }
-        //}
+        
     }
 }
