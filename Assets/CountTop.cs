@@ -10,7 +10,8 @@ public class CountTop : MonoBehaviour
     //script
     Turn turnScript;
     CardsDate cardsDate;
-    SelectPlace selectPlace;
+    SelectPlace playerPosition;
+    CollCreate cardsPosition;
     ObjList objList;
 
     //変数
@@ -20,7 +21,8 @@ public class CountTop : MonoBehaviour
     void Start()
     {
         cardsDate = GetComponent<CardsDate>();
-        selectPlace = GetComponent<SelectPlace>();
+        playerPosition = GetComponent<SelectPlace>();
+        cardsPosition = GetComponent<CollCreate>();
         objList = GetComponent<ObjList>();
         loopframe = 8;
         flg = false;
@@ -29,33 +31,33 @@ public class CountTop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        turnScript = GetComponent<Turn>();
+        //turnScript = GetComponent<Turn>();
 
         //上の残りの列を数える
-        int nowRow = (int)(selectPlace.selectPosition / 8 - 0.1f) + 1;
+        //int nowRow = (int)(selectPlace.selectPosition / 8 - 0.1f) + 1;
 
-        flg = false;
-        for (int i = 0; i < 8; i++)
-        {
-            int num = selectPlace.selectPosition + (8 * (i + 1));
-            if (cardsDate.cardNumber == num && flg == false)
-            {
-                if (cardsDate.cardPlace == CardsDate.CARDPLACE.FRONT_CARD)
-                {
+        //flg = false;
+        //for (int i = 0; i < 8; i++)
+        //{
+        //    int num = selectPlace.selectPosition + (8 * (i + 1));
+        //    if (cardsDate.cardNumber == num && flg == false)
+        //    {
+        //        if (cardsDate.cardPlace == CardsDate.CARDPLACE.FRONT_CARD)
+        //        {
 
-                    objList.floatObj.Add(num);
+        //            objList.floatObj.Add(num);
 
-                }
-                else
-                {
-                    flg = true;
-                }
-                if (cardsDate.playerCardType == cardsDate.cardType)
-                {
-                    break;
-                }
-            }
+        //        }
+        //        else
+        //        {
+        //            flg = true;
+        //        }
+        //        if (cardsDate.playerCardType == cardsDate.cardType)
+        //        {
+        //            break;
+        //        }
+        //    }
 
-        }
+        //}
     }
 }

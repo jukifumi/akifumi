@@ -260,9 +260,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b482ad9779dd9a2499b506e3727d3255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interval: 1.24
   collBox:
   - {fileID: 3906696735883192776, guid: c8796c462256569499ac4a152e6a6757, type: 2}
+  interval: 1.24
 --- !u!65 &277089445
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -390,14 +390,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 277089443}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0052c2118a485ab4394e8a151dc16eaf, type: 3}
+  m_Script: {fileID: 11500000, guid: a5c8430a9e1e8cb43b43c19680dea9a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  board: {fileID: 1305773973}
-  cardPlace: 0
-  cardType: 0
-  playerCardType: 0
-  cardNumber: 0
+  selectUp: 0
+  selectDown: 0
+  selectRight: 0
+  selectLeft: 0
 --- !u!1 &487334059
 GameObject:
   m_ObjectHideFlags: 0

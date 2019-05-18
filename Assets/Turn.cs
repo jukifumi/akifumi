@@ -26,7 +26,7 @@ public class Turn : MonoBehaviour
         changeColor = false;
 
 
-        blackOrWhit = Mathf.Floor(Random.Range(0.0f, 1.9f));//黒か白かランダムで決める
+        blackOrWhit = Mathf.Floor(Random.Range(0.0f, 1.9f));//最初のターンが黒か白かランダムで決める
     }
 
     // Update is called once per frame

@@ -30,10 +30,7 @@ public class CardsDate : MonoBehaviour
     }
 
     public CARDPLACE cardPlace;
-    public CARDTYPE cardType,playerCardType;
-
-    //カードの番号
-    public int cardNumber;
+    public CARDTYPE cardType;
 
     // Start is called before the first frame update
     void Start()
@@ -44,49 +41,6 @@ public class CardsDate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MaterialChange();
-
-        if(cardPlace != CardsDate.CARDPLACE.HAND_CARD)
-        {
-            GetComponent<MeshRenderer>().enabled = true;
-        }
     }
-    //色を変える処理
-    void MaterialChange()
-    {
-        ////駒を置く場所を選んでいるときその場所を赤色にする
-        //if (select == true)
-        //{
-        //    GetComponent<MeshRenderer>().enabled = true;
-        //    GetComponent<Renderer>().material.color = Color.red;
-        //    if (isLiftObj == false)
-        //    {//選択しているオブジェを少し上に浮かす
-        //        gameObject.transform.position += new Vector3(0, 0.5f, 0);
-        //        isLiftObj = true;
-        //    }
-        //}
-        //else
-        //{
-        //    isLiftObj = false;
-        //    //浮かしたオブジェを元の位置に戻す
-        //    gameObject.transform.position = initPosition;
-        //}
 
-        //マテリアルの色を変える
-        if (cardPlace == CardsDate.CARDPLACE.FRONT_CARD)
-        {
-            if (cardType == CardsDate.CARDTYPE.BLACK_CARD)
-            {
-
-                    GetComponent<Renderer>().material.color = Color.black;
-                
-            }
-            else if (cardType == CardsDate.CARDTYPE.WHIGHT_CARD)
-            {
-
-                    GetComponent<Renderer>().material.color = Color.white;
-                
-            }
-        }
-    }
 }
