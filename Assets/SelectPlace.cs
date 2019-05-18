@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+///////////////////////////////////////////////////////
+//置く場所を選ぶ処理
+//選んだ場所の周りのマスの番号をとる処理
+//カードの色を変える処理
+//////////////////////////////////////////////////////////
 public class SelectPlace : MonoBehaviour
 {
-    //ターン用アタッチするためのオブジェ
-    GameObject turnCube;
+    //script
     Turn turnScript;
-    //リスト用アタッチするためのオブジェ
-    GameObject listCube;
     ObjList objList;
-
-    IamCard iamCard;
+    CardsDate cardsDate;
     TurnOver turnOver;
+
     //変数
     [SerializeField]
     float selectUp, selectDown, selectRight, selectLeft;//選択している場所の周り
@@ -36,10 +38,8 @@ public class SelectPlace : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        turnCube = GameObject.Find("turnControl");
-        listCube = GameObject.Find("ListCube");
-        iamCard = GetComponent<IamCard>();
-        objList = listCube.GetComponent<ObjList>();
+        cardsDate = GetComponent<CardsDate>();
+        objList = GetComponent<ObjList>();
         turnOver = GetComponent<TurnOver>();
 
         countTop = false;
@@ -58,69 +58,27 @@ public class SelectPlace : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        turnScript = turnCube.GetComponent<Turn>();
+        turnScript = GetComponent<Turn>();
 
-        MaterialChange();
         SelectState();
         ChooseALocation();
-    }
-
-    //色を変える処理
-    void MaterialChange()
-    {
-        //駒を置く場所を選んでいるときその場所を赤色にする
-        if (select == true)
-        {
-            GetComponent<MeshRenderer>().enabled = true;
-            GetComponent<Renderer>().material.color = Color.red;
-            if (isLiftObj == false)
-            {//選択しているオブジェを少し上に浮かす
-                gameObject.transform.position += new Vector3(0, 0.5f, 0);
-                isLiftObj = true;
-            }
-        }
-        else
-        {
-            isLiftObj = false;
-            //浮かしたオブジェを元の位置に戻す
-            gameObject.transform.position = initPosition;
-        }
-
-        //マテリアルの色を変える
-        if (iamCard.cardPlace == IamCard.CARDPLACE.FRONT_CARD)
-        {
-            if (iamCard.cardType == IamCard.CARDTYPE.BLACK_CARD)
-            {
-                if (select == false)
-                {//黒
-                    GetComponent<Renderer>().material.color = Color.black;
-                }
-            }
-            else if (iamCard.cardType == IamCard.CARDTYPE.WHIGHT_CARD)
-            {
-                if (select == false)
-                {//白
-                    GetComponent<Renderer>().material.color = Color.white;
-                }
-            }
-        }
     }
 
     //選択状態を切り替える
     void SelectState()
     {
-        if (iamCard.cardNumber == selectPosition)
+        if (cardsDate.cardNumber == selectPosition)
         {//選択している
             select = true;
         }
         else
         {//選択していない
             //カードの状態
-            if (iamCard.cardPlace == IamCard.CARDPLACE.HAND_CARD)
+            if (cardsDate.cardPlace == CardsDate.CARDPLACE.HAND_CARD)
             {//手札にあったら
                 GetComponent<MeshRenderer>().enabled = false;
             }
-            else if (iamCard.cardPlace == IamCard.CARDPLACE.FRONT_CARD)
+            else if (cardsDate.cardPlace == CardsDate.CARDPLACE.FRONT_CARD)
             {//表に出ていたら
                 GetComponent<MeshRenderer>().enabled = true;
             }
