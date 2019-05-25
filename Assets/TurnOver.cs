@@ -31,18 +31,18 @@ public class TurnOver : MonoBehaviour
     {
         turnScript = GetComponent<Turn>();
 
-        ////Listに上の表に置いているオブジェクトを格納する
-        //if (isListAdd == false)
-        //{
-        //    foreach (var item in objList.floatObj)
-        //    {
-        //        if (item == cardsDate.cardNumber && cardsDate.cardPlace == CardsDate.CARDPLACE.FRONT_CARD)
-        //        {//オブジェクトを控える
-        //            objList.upFrontObj.Add(this.gameObject);
-        //            isListAdd = true;
-        //        }
-        //    }
-        //}
+        //Listに上の表に置いているオブジェクトを格納する
+        if (isListAdd == false)
+        {
+            foreach (var item in objList.floatObj)
+            {
+                if (item == cardsDate.cardNumber && cardsDate.cardPlace == CardsDate.CARDPLACE.FRONT_CARD)
+                {//オブジェクトを控える
+                    objList.upFrontObj.Add(this.gameObject);
+                    isListAdd = true;
+                }
+            }
+        }
 
         //ひっくり返る
         if (putTheCardScript.isTurnOverOk == true)
