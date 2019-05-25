@@ -22,7 +22,7 @@ public class SelectPlace : MonoBehaviour
 
     int x;
     int y;
-
+    public int myNumber;
 
     bool isPut;//置く
     bool countTop;//選択中の場所の上のマス番号を数える
@@ -31,7 +31,7 @@ public class SelectPlace : MonoBehaviour
     //構造体の定義
     public Player player ;
 
-    //
+    //プレイヤーに二次元のポジションを持たせる
     public struct Player
     {
         public Vector2 pNow_pos;
@@ -52,16 +52,18 @@ private const int MAX_CARDS = 64;//複製するオブジェクトの最大数
 
     // Start is called before the first frame update
     void Start()
-    {
-        x = 0;
-        y = 0;
-        cardsDate = GetComponent<CardsDate>();
-        objList = GetComponent<ObjList>();
-        turnOver = GetComponent<TurnOver>();
+    {//初期化
+        cardsDate     = GetComponent<CardsDate>();
+        objList       = GetComponent<ObjList>();
+        turnOver      = GetComponent<TurnOver>();
         cardsPosition = GetComponent<CollCreate>();
 
+        //変数初期化
         countTop = false;
         isPut = false;
+        x = 0;
+        y = 0;
+        myNumber = 0;
         selectUp = 0;
         selectDown = 0;
         selectRight = 0;
@@ -88,7 +90,7 @@ private const int MAX_CARDS = 64;//複製するオブジェクトの最大数
     {//自分が選択している場所と同じ場所にあるオブジェクトを選択している状態にする
         for (int i = 0; i < MAX_CARDS; i++)
         {
-            if (cardsPosition.Cards[i].myPos == player.pNow_pos)
+            if (i==myNumber)
             {//選択している
                 cardsPosition.Cards[i].select = true;
             }
@@ -142,5 +144,16 @@ private const int MAX_CARDS = 64;//複製するオブジェクトの最大数
             isInit = false;
         }
 
+        //番号をとる
+        myNumber = MyNum(x, y);
+        Debug.Log(myNumber);
+    }
+    int MyNum(int xNum, int yNum)
+    {
+        int num = 0;
+
+        num = xNum + yNum * 8;
+
+        return num;
     }
 }

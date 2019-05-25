@@ -17,13 +17,16 @@ public class CountTop : MonoBehaviour
     //変数
     int loopframe;
     bool flg;
+
     // Start is called before the first frame update
     void Start()
-    {
-        cardsDate = GetComponent<CardsDate>();
+    {//初期化
+        cardsDate      = GetComponent<CardsDate>();
         playerPosition = GetComponent<SelectPlace>();
-        cardsPosition = GetComponent<CollCreate>();
-        objList = GetComponent<ObjList>();
+        cardsPosition  = GetComponent<CollCreate>();
+        objList        = GetComponent<ObjList>();
+
+        //変数初期化
         loopframe = 8;
         flg = false;
     }
@@ -31,6 +34,22 @@ public class CountTop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /////////////////////////
+        //途中
+        /////////////////////////
+        //上を数える
+        for (int i = 0; i < 64; i++)
+        {
+            if (i == playerPosition.myNumber)
+            {
+
+                objList.floatObj.Add(i);
+            }
+        }
+
+        /////////////////////////////////////////////////////
+        //前のバージョン：参考にするために残している
+        ////////////////////////////////////////////////////////
         //turnScript = GetComponent<Turn>();
 
         //上の残りの列を数える

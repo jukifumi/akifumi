@@ -16,21 +16,24 @@ public class CollCreate : MonoBehaviour
     //スクリプト
     BoardData cardPosition;
     CardsDate cardsDate;
+    PutTheCard putTheCard;
 
-    public Carb[] Cards=new Carb[64];
+    public Card[] Cards = new Card[64];
 
     //変数
     [SerializeField]
     float interval;//間隔
     int number = 0;
-    int col=0;
-    int row=0;
+    int col = 0;
+    int row = 0;
 
     //静的定数
     private const int MAX_CARDS = 64;//複製するオブジェクトの最大数
+    private const float SIDE_OBJECT = -4.3f;
+    private const int MAX_SPUARES = 8;
 
-    //
-    public struct Carb
+    //構造体の定義
+    public struct Card
     {
         public GameObject gameobj;
         public Vector2 myPos;//そのカードのポジション
@@ -51,22 +54,22 @@ public class CollCreate : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cardsDate = GetComponent<CardsDate>();
+        putTheCard = GetComponent<PutTheCard>();
 
         //オブジェクトを複製する
         for (int i = 0; i < MAX_CARDS; i++)
         {
             Cards[i].gameobj = Instantiate(collBox[0]); //複製
-            Cards[i].gameobj.transform.position = new Vector3(-4.3f + (i % 8 * interval), 0, -4.3f + (i / 8 * interval));//盤面のマスに合うように間隔をあける
+            Cards[i].gameobj.transform.position = new Vector3(SIDE_OBJECT + (i % MAX_SPUARES * interval), 0, SIDE_OBJECT + (i / MAX_SPUARES * interval));//盤面のマスに合うように間隔をあける
             Cards[i].gameobj.GetComponent<MeshRenderer>().enabled = false;  //オブジェクトを見えないようにする
             Cards[i].gameobj.AddComponent<CardsDate>();                     //カードにCardsDateのスクリプトをアタッチする
             Cards[i].gameobj.AddComponent<MaterialProcessing>();            //カードにMaterialProcessingのスクリプトをアタッチする
-            Cards[i].gameobj.AddComponent<PutTheCard>();
             Cards[i].myPos = Vget(row, col);                              //カードにポジションを与える
             Cards[i].select = false;
 
-            //
+            //番号をとる
             Cards[i].gameobj.GetComponent<MaterialProcessing>().SetNum(i);
+            putTheCard.SetNum(i);
 
             //与えるためのポジションを決める
             row++;
@@ -110,6 +113,6 @@ public class CollCreate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //
+        //特になし
     }
 }

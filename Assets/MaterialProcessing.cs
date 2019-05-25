@@ -4,28 +4,34 @@ using UnityEngine;
 
 public class MaterialProcessing : MonoBehaviour {
 
+    //script
     GameObject master;
     SelectPlace selectMode;
     CardsDate cardsDate;
     CollCreate cards;
-    int number;
 
     //ベクトル
     Vector3 initPosition;//初期位置
-    bool isLiftObj;//オブジェクトを選択しているとわかりやすいように持ち上げるとき
+
+    //変数
+    int number;//番号
+    bool isLiftObj;//オブジェクトを選択しているとわかりやすいように持ち上げて表示するとき
 
     // Use this for initialization
-    void Start () {
-        master=GameObject.Find("MasterCube");
+    void Start ()
+    {
+        master     = GameObject.Find("MasterCube");
         selectMode = master.GetComponent<SelectPlace>();
-        cardsDate = GetComponent<CardsDate>();
-        cards = master.GetComponent<CollCreate>();
+        cardsDate  = GetComponent<CardsDate>();
+        cards      = master.GetComponent<CollCreate>();
+
         initPosition = transform.position;
         isLiftObj = false;
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
         MaterialChange();
     }
 
@@ -34,15 +40,13 @@ public class MaterialProcessing : MonoBehaviour {
     {
         GetComponent<MeshRenderer>().enabled = false;
 
-        if (cards.Cards[number].myPos == selectMode.player.pNow_pos)
-        {
             //駒を置く場所を選んでいるときその場所を赤色にする
             if (cards.Cards[number].select == true)
             {
-                GetComponent<MeshRenderer>().enabled = true;
-                GetComponent<Renderer>().material.color = Color.red;
+                GetComponent<MeshRenderer>().enabled = true;//オブジェクトを表示する
+                GetComponent<Renderer>().material.color = Color.red;//赤色
                 if (isLiftObj == false)
-                {//選択しているオブジェを少し上に浮かす
+                {//選択しているオブジェをわかりやすいように少し上に浮かす
                     gameObject.transform.position += new Vector3(0, 0.5f, 0);
                     isLiftObj = true;
                 }
@@ -64,13 +68,11 @@ public class MaterialProcessing : MonoBehaviour {
                     GetComponent<MeshRenderer>().enabled = true;
                 }
             }
-        }
-
 
         //手札にあるカードは場にないので非表示にする
         if (cardsDate.cardPlace != CardsDate.CARDPLACE.HAND_CARD)
         {
-            GetComponent<MeshRenderer>().enabled = true;
+            GetComponent<MeshRenderer>().enabled = true;//表示する
         }
 
 
@@ -79,19 +81,20 @@ public class MaterialProcessing : MonoBehaviour {
         {
             if (cardsDate.cardType == CardsDate.CARDTYPE.BLACK_CARD)
             {
-
+                //黒色
                 GetComponent<Renderer>().material.color = Color.black;
 
             }
             else if (cardsDate.cardType == CardsDate.CARDTYPE.WHIGHT_CARD)
             {
-
+                //白色
                 GetComponent<Renderer>().material.color = Color.white;
 
             }
 
         }
     }
+    //番号を持ってくる
     public void SetNum(int n)
     {
         number = n;
