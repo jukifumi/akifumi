@@ -240,8 +240,8 @@ GameObject:
   - component: {fileID: 277089449}
   - component: {fileID: 277089451}
   - component: {fileID: 277089450}
-  - component: {fileID: 277089452}
   - component: {fileID: 277089453}
+  - component: {fileID: 277089452}
   m_Layer: 0
   m_Name: MasterCube
   m_TagString: Untagged

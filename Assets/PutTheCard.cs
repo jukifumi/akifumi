@@ -40,6 +40,7 @@ public class PutTheCard : MonoBehaviour
             {
                 if (cardsPosition.Cards[i].myPos == playerPosition.player.pNow_pos)
                 {//手札だったら
+                    Debug.Log("aaaaaa");
                     if (cardsDate.cardPlace == CardsDate.CARDPLACE.HAND_CARD)
                     {
                         cardsDate.cardPlace = CardsDate.CARDPLACE.FRONT_CARD;//表において

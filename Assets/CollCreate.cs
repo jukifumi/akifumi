@@ -35,6 +35,7 @@ public class CollCreate : MonoBehaviour
         public GameObject gameobj;
         public Vector2 myPos;//そのカードのポジション
         public bool select;
+
     }
 
     //二次元
@@ -53,15 +54,19 @@ public class CollCreate : MonoBehaviour
         cardsDate = GetComponent<CardsDate>();
 
         //オブジェクトを複製する
-        for (var i = 0; i < MAX_CARDS; i++)
+        for (int i = 0; i < MAX_CARDS; i++)
         {
             Cards[i].gameobj = Instantiate(collBox[0]); //複製
             Cards[i].gameobj.transform.position = new Vector3(-4.3f + (i % 8 * interval), 0, -4.3f + (i / 8 * interval));//盤面のマスに合うように間隔をあける
             Cards[i].gameobj.GetComponent<MeshRenderer>().enabled = false;  //オブジェクトを見えないようにする
             Cards[i].gameobj.AddComponent<CardsDate>();                     //カードにCardsDateのスクリプトをアタッチする
             Cards[i].gameobj.AddComponent<MaterialProcessing>();            //カードにMaterialProcessingのスクリプトをアタッチする
+            Cards[i].gameobj.AddComponent<PutTheCard>();
             Cards[i].myPos = Vget(row, col);                              //カードにポジションを与える
             Cards[i].select = false;
+
+            //
+            Cards[i].gameobj.GetComponent<MaterialProcessing>().SetNum(i);
 
             //与えるためのポジションを決める
             row++;

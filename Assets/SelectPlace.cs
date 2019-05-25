@@ -88,8 +88,6 @@ private const int MAX_CARDS = 64;//複製するオブジェクトの最大数
     {//自分が選択している場所と同じ場所にあるオブジェクトを選択している状態にする
         for (int i = 0; i < MAX_CARDS; i++)
         {
-            ///////////////////////////////////////////////////////////////
-            //erroooooooooo
             if (cardsPosition.Cards[i].myPos == player.pNow_pos)
             {//選択している
                 cardsPosition.Cards[i].select = true;
@@ -107,7 +105,7 @@ private const int MAX_CARDS = 64;//複製するオブジェクトの最大数
         //置く場所を選ぶ
         //右キー
         if (Input.GetKeyDown(KeyCode.RightArrow) &&
-            player.pNow_pos.x < 8 )
+            player.pNow_pos.x < 7 )
         {
             isInit = true;
             x++;
@@ -121,17 +119,17 @@ private const int MAX_CARDS = 64;//複製するオブジェクトの最大数
         }
         //上キー
         if (Input.GetKeyDown(KeyCode.UpArrow) &&
-            player.pNow_pos.y <8)
+            player.pNow_pos.y <7)
         {
             isInit = true;
-            y--;
+            y++;
         }
         //下キー
         if (Input.GetKeyDown(KeyCode.DownArrow) &&
             player.pNow_pos.y > 0)
         {
             isInit = true;
-            y++;
+            y--;
         }
 
         //初期化
