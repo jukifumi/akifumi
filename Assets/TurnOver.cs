@@ -14,6 +14,7 @@ public class TurnOver : MonoBehaviour
     CardsDate cardsDate;
     SelectPlace playerPosition;
     CollCreate cardsPosition;
+    CountTop counttop;
 
     public bool isListAdd;//追加するとき
     // Start is called before the first frame update
@@ -24,6 +25,7 @@ public class TurnOver : MonoBehaviour
         cardsPosition    = GetComponent<CollCreate>();
         cardsDate        = GetComponent<CardsDate>();
         objList          = GetComponent<ObjList>();
+        counttop = GetComponent<CountTop>();
     }
 
     // Update is called once per frame
@@ -31,30 +33,38 @@ public class TurnOver : MonoBehaviour
     {
         turnScript = GetComponent<Turn>();
 
-        ////////////////////////////////////////////////
-        //前のバージョン：参考にするために残している
-        ////////////////////////////////////////////////
-
         //ひっくり返る
         if (putTheCardScript.isTurnOverOk == true)
         {
             for (int i = 0; i < objList.upFrontObj.Count; i++)
             {//リストに入っているオブジェクトだけ処理する
 
-                if (turnScript.blackOrWhit==0)//偶数のターン
-                {//黒色にする
-
-                    objList.upFrontObj[i].GetComponent<CardsDate>().cardType = CardsDate.CARDTYPE.BLACK_CARD;
-
-                }
-                else if(turnScript.blackOrWhit == 1)//奇数のターン
-                {//白色にする
-
-                    objList.upFrontObj[i].GetComponent<CardsDate>().cardType = CardsDate.CARDTYPE.WHIGHT_CARD;
-
-                }
+                Debug.Log(objList.upFrontObj[i]);
+                objRead(i);
             }
             putTheCardScript.isTurnOverOk = false;
+        }
+    }
+
+    //読み込んで見やすいようにする
+    void objRead(int p)
+    {
+        if (turnScript.blackOrWhit == 0)//偶数のターン
+        {//黒色にする
+
+            counttop.topObjList.upFrontObj[p].GetComponent<CardsDate>().cardType = CardsDate.CARDTYPE.BLACK_CARD;
+            counttop.downObjList.upFrontObj[p].GetComponent<CardsDate>().cardType = CardsDate.CARDTYPE.BLACK_CARD;
+            counttop.rightObjList.upFrontObj[p].GetComponent<CardsDate>().cardType = CardsDate.CARDTYPE.BLACK_CARD;
+            counttop.leftObjList.upFrontObj[p].GetComponent<CardsDate>().cardType = CardsDate.CARDTYPE.BLACK_CARD;
+
+        }
+        else if (turnScript.blackOrWhit == 1)//奇数のターン
+        {//白色にする
+
+            counttop.topObjList.upFrontObj[p].GetComponent<CardsDate>().cardType = CardsDate.CARDTYPE.WHIGHT_CARD;
+            counttop.downObjList.upFrontObj[p].GetComponent<CardsDate>().cardType = CardsDate.CARDTYPE.WHIGHT_CARD;
+            counttop.rightObjList.upFrontObj[p].GetComponent<CardsDate>().cardType = CardsDate.CARDTYPE.WHIGHT_CARD;
+            counttop.leftObjList.upFrontObj[p].GetComponent<CardsDate>().cardType = CardsDate.CARDTYPE.WHIGHT_CARD;
         }
     }
 }

@@ -51,7 +51,7 @@ public class PutTheCard : MonoBehaviour
                     //手札にあるカードを置く処理
                     if (cardPlace == CardsDate.CARDPLACE.HAND_CARD)
                     {
-                        Debug.Log("aaaaaa");
+                        //Debug.Log("aaaaaa");
                         cardPlace = CardsDate.CARDPLACE.FRONT_CARD;//表において
 
                         if (turnScript.blackOrWhit == 0)//偶数のターン

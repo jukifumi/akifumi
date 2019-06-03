@@ -64,6 +64,7 @@ public class Turn : MonoBehaviour
                 blackOrWhit = 0;
                 changeColor = true;
             }
+            //Debug.Log(blackOrWhit);
         }
     }
 }
