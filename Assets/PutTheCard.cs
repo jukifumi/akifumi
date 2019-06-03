@@ -17,6 +17,13 @@ public class PutTheCard : MonoBehaviour
     //変数
     int number;
 
+    //周りが置けるか判断する
+    bool canTop;
+    bool canDown;
+    bool canRight;
+    bool canLeft;
+
+    bool putOk;//置けるとき
     public bool isTurnOverOk;
 
     // Start is called before the first frame update
@@ -35,6 +42,18 @@ public class PutTheCard : MonoBehaviour
         //毎フレームしないとターンが変わらない
         turnScript = GetComponent<Turn>();
 
+        //関数呼び出し
+        //後で使う
+        //AroundStateTheCanLeave(canTop, 8);
+        //AroundStateTheCanLeave(canDown, -8);
+        //AroundStateTheCanLeave(canRight, 1);
+        //AroundStateTheCanLeave(canLeft, -1);
+
+        if (canTop == true || canDown == true || canRight == true || canLeft == true)
+        {
+            putOk = true;
+        }
+
         //カードを置く
         if (Input.GetKeyDown(KeyCode.A) == true)
         {
@@ -42,8 +61,9 @@ public class PutTheCard : MonoBehaviour
             for (int i = 0; i < number; i++)
             {
                 //選択している場所が
-                if (i== playerPosition.myNumber)
-                {
+                if (i== playerPosition.myNumber )
+                {//&& putOk == true　後で使う
+
                     //手札だったら
                     //オブジェクトの情報を変数に格納する
                     var cardType = cardsPosition.Cards[i].gameobj.GetComponent<CardsDate>().cardType;
@@ -52,17 +72,17 @@ public class PutTheCard : MonoBehaviour
                     //手札にあるカードを置く処理
                     if (cardPlace == CardsDate.CARDPLACE.HAND_CARD)
                     {
+                        //表において
+                        cardPlace = CardsDate.CARDPLACE.FRONT_CARD;
 
-                        cardPlace = CardsDate.CARDPLACE.FRONT_CARD;//表において
-
-                        if (turnScript.blackOrWhit == 0)//偶数のターン
+                        if (turnScript.blackOrWhit == 0)
                         {
                             //黒色にする
                             cardType = CardsDate.CARDTYPE.BLACK_CARD;
                             isTurnOverOk = true;
 
                         }
-                        else//奇数のターン
+                        else
                         {
                             //白色にする
                             cardType = CardsDate.CARDTYPE.WHIGHT_CARD;
@@ -78,6 +98,43 @@ public class PutTheCard : MonoBehaviour
             }
         }
     }
+
+    //周りの状態から置いていいか決める
+    //後で使う
+    //void AroundStateTheCanLeave(bool canPut,int ShiftedPos)
+    //{
+    //    canPut = false;
+
+    //    for (int i = 0; i < number; i++)
+    //    {
+    //        //選択している場所が
+    //        if (i == playerPosition.myNumber + ShiftedPos)
+    //        {
+    //            //手札だったら
+    //            //オブジェクトの情報を変数に格納する
+    //            var cardType  = cardsPosition.Cards[i].gameobj.GetComponent<CardsDate>().cardType;
+    //            var cardPlace = cardsPosition.Cards[i].gameobj.GetComponent<CardsDate>().cardPlace;
+
+    //            //手札にあるカードを置く処理
+    //            if (cardPlace == CardsDate.CARDPLACE.FRONT_CARD)
+    //            {
+    //                if (turnScript.blackOrWhit == 0 &&
+    //                cardType == CardsDate.CARDTYPE.BLACK_CARD)
+    //                {
+    //                    Debug.Log("aaaaaaaaa");
+    //                    canPut = true;
+
+    //                }
+    //                else if (turnScript.blackOrWhit == 1 &&
+    //                    cardType == CardsDate.CARDTYPE.WHIGHT_CARD)
+    //                {
+    //                    canPut = true;
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
+
     //番号を持ってくる
     public void SetNum(int n)
     {

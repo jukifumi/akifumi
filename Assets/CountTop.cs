@@ -75,6 +75,7 @@ public class CountTop : MonoBehaviour
         //関数呼び出し
         //バグ
         //なぜか一個だけしか実装できない
+        //右は完全にできない（maxValueの引数の値が違うかも）
         //CountAround(8,isPlusCount,isNone,topPos, 64, topObjList);//上
         //CountAround(-8,isNone, isMinusCount,downPos, 0, downObjList);//下
         CountAround(1, isPlusCount,isNone, rightPos, rightPos + ((MAX_COLUMN - 1) - sideCount), rightObjList);//右
