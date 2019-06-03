@@ -10,24 +10,19 @@ using UnityEngine;
 public class SelectPlace : MonoBehaviour
 {
     //script
-    Turn turnScript;
-    ObjList objList;
-    CardsDate cardsDate;
-    TurnOver turnOver;
     CollCreate cardsPosition;
+    ObjList    objList;
+    Turn       turnScript;
 
     //変数
-    [SerializeField]
-    float selectUp, selectDown, selectRight, selectLeft;//選択している場所の周り
 
     int x;
     int y;
     public int myNumber;
 
     bool isPut;//置く
-    bool countTop;//選択中の場所の上のマス番号を数える
     bool isInit;//初期化するときのフラグ
-    public bool isCountSquaresInit;//数えている周りのマス目を初期化するフラグ
+    public bool isCountInit;//数えている周りのマス目を初期化するフラグ
 
     //構造体の定義
     public Player player ;
@@ -38,7 +33,7 @@ public class SelectPlace : MonoBehaviour
         public Vector2 pNow_pos;
     }
 
-
+    //二次元
     Vector2 Vget(int x, int y)
     {
         Vector2 vector;
@@ -48,28 +43,23 @@ public class SelectPlace : MonoBehaviour
     }
 
 
-//静的定数
-private const int MAX_CARDS = 64;//複製するオブジェクトの最大数
+    //静的定数
+    private const int MAX_CARDS = 64;//複製するオブジェクトの最大数
 
     // Start is called before the first frame update
     void Start()
-    {//初期化
-        cardsDate     = GetComponent<CardsDate>();
-        objList       = GetComponent<ObjList>();
-        turnOver      = GetComponent<TurnOver>();
+    {
+        //初期化
         cardsPosition = GetComponent<CollCreate>();
+        objList       = GetComponent<ObjList>();
 
         //変数初期化
-        countTop = false;
-        isCountSquaresInit = true ;
+        isCountInit = true ;
         isPut = false;
+
         x = 0;
         y = 0;
         myNumber = 0;
-        selectUp = 0;
-        selectDown = 0;
-        selectRight = 0;
-        selectLeft = 0;
     }
 
     // Update is called once per frame
@@ -89,15 +79,18 @@ private const int MAX_CARDS = 64;//複製するオブジェクトの最大数
 
     //選択状態を切り替える
     void SelectState()
-    {//自分が選択している場所と同じ場所にあるオブジェクトを選択している状態にする
+    {
+        //自分が選択している場所と同じ場所にあるオブジェクトを選択している状態にする
         for (int i = 0; i < MAX_CARDS; i++)
         {
             if (i==myNumber)
-            {//選択している
+            {
+                //選択している
                 cardsPosition.Cards[i].select = true;
             }
             else
-            {//選択していない
+            {
+                //選択していない
                 cardsPosition.Cards[i].select = false;
             }
         }
@@ -113,7 +106,7 @@ private const int MAX_CARDS = 64;//複製するオブジェクトの最大数
         {
             isInit = true;
             x++;
-            isCountSquaresInit = true;
+            isCountInit = true;
         }
         //左キー
         if (Input.GetKeyDown(KeyCode.LeftArrow) &&
@@ -121,7 +114,7 @@ private const int MAX_CARDS = 64;//複製するオブジェクトの最大数
         {
             isInit = true;
             x--;
-            isCountSquaresInit = true;
+            isCountInit = true;
         }
         //上キー
         if (Input.GetKeyDown(KeyCode.UpArrow) &&
@@ -129,7 +122,7 @@ private const int MAX_CARDS = 64;//複製するオブジェクトの最大数
         {
             isInit = true;
             y++;
-            isCountSquaresInit = true;
+            isCountInit = true;
         }
         //下キー
         if (Input.GetKeyDown(KeyCode.DownArrow) &&
@@ -137,14 +130,12 @@ private const int MAX_CARDS = 64;//複製するオブジェクトの最大数
         {
             isInit = true;
             y--;
-            isCountSquaresInit = true;
+            isCountInit = true;
         }
 
         //初期化
         if(isInit == true)
         {
-            turnOver.isListAdd = false;
-            countTop = false;
             objList.upFrontObj.Clear();
             objList.floatObj.Clear();
             isInit = false;
@@ -154,6 +145,8 @@ private const int MAX_CARDS = 64;//複製するオブジェクトの最大数
         myNumber = MyNum(x, y);
         //Debug.Log(myNumber);
     }
+
+    //番号をとる
     int MyNum(int xNum, int yNum)
     {
         int num = 0;
