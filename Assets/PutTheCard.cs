@@ -49,6 +49,7 @@ public class PutTheCard : MonoBehaviour
         //AroundStateTheCanLeave(canRight, 1);
         //AroundStateTheCanLeave(canLeft, -1);
 
+        //フラグを立てて置けるようにする
         if (canTop == true || canDown == true || canRight == true || canLeft == true)
         {
             putOk = true;
