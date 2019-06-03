@@ -34,15 +34,6 @@ public class TurnOver : MonoBehaviour
         ////////////////////////////////////////////////
         //前のバージョン：参考にするために残している
         ////////////////////////////////////////////////
-        //Listに上の表に置いているオブジェクトを格納する
-        //if (isListAdd == false)
-        //{
-        //    {//オブジェクトを控える
-        //        objList.upFrontObj.Add(cardsPosition.Cards[i].gameObj);
-        //        isListAdd = true;
-        //    }
-        //}
- 
 
         //ひっくり返る
         if (putTheCardScript.isTurnOverOk == true)
@@ -63,6 +54,7 @@ public class TurnOver : MonoBehaviour
 
                 }
             }
+            putTheCardScript.isTurnOverOk = false;
         }
     }
 }

@@ -27,6 +27,7 @@ public class SelectPlace : MonoBehaviour
     bool isPut;//置く
     bool countTop;//選択中の場所の上のマス番号を数える
     bool isInit;//初期化するときのフラグ
+    public bool countInit;
 
     //構造体の定義
     public Player player ;
@@ -60,6 +61,7 @@ private const int MAX_CARDS = 64;//複製するオブジェクトの最大数
 
         //変数初期化
         countTop = false;
+        countInit = true ;
         isPut = false;
         x = 0;
         y = 0;
@@ -111,6 +113,7 @@ private const int MAX_CARDS = 64;//複製するオブジェクトの最大数
         {
             isInit = true;
             x++;
+            countInit = true;
         }
         //左キー
         if (Input.GetKeyDown(KeyCode.LeftArrow) &&
@@ -118,6 +121,7 @@ private const int MAX_CARDS = 64;//複製するオブジェクトの最大数
         {
             isInit = true;
             x--;
+            countInit = true;
         }
         //上キー
         if (Input.GetKeyDown(KeyCode.UpArrow) &&
@@ -125,6 +129,7 @@ private const int MAX_CARDS = 64;//複製するオブジェクトの最大数
         {
             isInit = true;
             y++;
+            countInit = true;
         }
         //下キー
         if (Input.GetKeyDown(KeyCode.DownArrow) &&
@@ -132,6 +137,7 @@ private const int MAX_CARDS = 64;//複製するオブジェクトの最大数
         {
             isInit = true;
             y--;
+            countInit = true;
         }
 
         //初期化
@@ -146,7 +152,7 @@ private const int MAX_CARDS = 64;//複製するオブジェクトの最大数
 
         //番号をとる
         myNumber = MyNum(x, y);
-        Debug.Log(myNumber);
+        //Debug.Log(myNumber);
     }
     int MyNum(int xNum, int yNum)
     {
