@@ -151,7 +151,7 @@ public class SelectPlace : MonoBehaviour
     {
         int num = 0;
 
-        num = xNum + yNum * 8;
+        num = (yNum * 8) + xNum;
 
         return num;
     }
