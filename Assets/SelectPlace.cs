@@ -60,6 +60,9 @@ public class SelectPlace : MonoBehaviour
         x = 0;
         y = 0;
         myNumber = 0;
+
+        //プレイヤーのポジション
+        player.pNow_pos = Vget(x, y);
     }
 
     // Update is called once per frame
@@ -83,7 +86,7 @@ public class SelectPlace : MonoBehaviour
         //自分が選択している場所と同じ場所にあるオブジェクトを選択している状態にする
         for (int i = 0; i < MAX_CARDS; i++)
         {
-            if (i==myNumber)
+            if (player.pNow_pos == cardsPosition.Cards[i].myPos)
             {
                 //選択している
                 cardsPosition.Cards[i].select = true;
@@ -140,23 +143,23 @@ public class SelectPlace : MonoBehaviour
         //初期化
         if(isInit == true)
         {
-            objList.upFrontObj.Clear();
-            objList.floatObj.Clear();
+            objList.frontObj.Clear();
+            //objList.floatObj.Clear();
             isInit = false;
         }
 
         //番号をとる
-        myNumber = MyNum(x, y);
+        //myNumber = MyNum(x, y);
         //Debug.Log(myNumber);
     }
 
-    //番号をとる
-    int MyNum(int xNum, int yNum)
-    {
-        int num = 0;
+    ////番号をとる
+    //int MyNum(int xNum, int yNum)
+    //{
+    //    int num = 0;
 
-        num = (yNum * 8) + xNum;
+    //    num = (yNum * 8) + xNum;
 
-        return num;
-    }
+    //    return num;
+    //}
 }

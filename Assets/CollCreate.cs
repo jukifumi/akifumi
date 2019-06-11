@@ -38,7 +38,7 @@ public class CollCreate : MonoBehaviour
         public GameObject gameobj;
         public Vector2 myPos;//そのカードのポジション
         public bool select;
-
+        public CardsDate data;  // そのカードのデータ
     }
 
     //二次元
@@ -67,9 +67,13 @@ public class CollCreate : MonoBehaviour
             Cards[i].myPos = Vget(row, col);                              //カードにポジションを与える
             Cards[i].select = false;
 
+            Cards[i].data = Cards[i].gameobj.GetComponent<CardsDate>();
+
+
             //番号をとる
             Cards[i].gameobj.GetComponent<MaterialProcessing>().SetNum(i);
             putTheCard.SetNum(i);
+
 
             //与えるためのポジションを決める
             row++;

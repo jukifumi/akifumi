@@ -18,10 +18,19 @@ public class CountTop : MonoBehaviour
 
     //8方向のポジション
     //とりあえす４方向
-    int topPos;
-    int downPos;
-    int rightPos;
-    int leftPos;
+    Vector2 topPos;
+    Vector2 downPos;
+    Vector2 rightPos;
+    Vector2 leftPos;
+
+    //二次元
+    Vector2 Vget(int x, int y)
+    {
+        Vector2 vector;
+        vector.x = x;
+        vector.y = y;
+        return vector;
+    }
 
 
     //bool isDirectionCount; //数えた値を格納するときに制御するフラグ
@@ -32,6 +41,7 @@ public class CountTop : MonoBehaviour
     //静的定数
     private const int MAX_CARDS = 64; //複製するオブジェクトの最大数
     private const int MAX_COLUMN = 8; //列の最大数
+    private const int MAX_LINE = 8;
 
     // Start is called before the first frame update
     void Start()
@@ -56,10 +66,10 @@ public class CountTop : MonoBehaviour
 
         //ポジションをとる
         //positionNum = playerPosition.myNumber;
-        topPos = playerPosition.myNumber;
-        downPos = playerPosition.myNumber;
-        rightPos = playerPosition.myNumber;
-        leftPos = playerPosition.myNumber;
+        topPos = Vget(0, 0);
+        downPos = Vget(0, 0);
+        rightPos = Vget(0, 0);
+        leftPos = Vget(0, 0);
 
     }
 
@@ -78,113 +88,84 @@ public class CountTop : MonoBehaviour
         //バグ
         //なぜか一個だけしか実装できない
         //右は完全にできない（maxValueの引数の値が違うかも）
-        CountAround(8,isPlusCount,isNone,topPos, 64, topObjList);//上
-        CountAround(-8,isNone, isMinusCount,downPos, 0, downObjList);//下
-        //CountAround(1, isPlusCount,isNone, rightPos, rightPos + ((MAX_COLUMN - 1) - sideCount), rightObjList);//右
-        CountAround(-1,isNone, isMinusCount,leftPos, leftPos-sideCount, leftObjList);//左
+        CountAround(topPos,0,1,Vget(0,1), topObjList);//上
+        CountAround(downPos, 0,-1,Vget(0,-1), downObjList);//下
+        CountAround(rightPos, 1, 0, Vget(1, 0), rightObjList);//右
+        CountAround(leftPos,-1,0, Vget(-1,0), leftObjList);//左
         CountSquares.isCountInit = false;
 
 
-        
+
     }
 
-    //8方向のマスを限界まで数える
-    void CountAround(int numByDirection, bool Puls, bool Minus, int positionNum, int maxValue, ObjList obj)
+    /// <summary>
+    /// 8方向のマスを限界まで数える
+    /// </summary>
+    /// <param name="numByDirection">その方向に足す値</param>
+    /// <param name="positionNum">ポジションのコピー</param>
+    /// <param name="obj">オブジェクトの情報を持ってくる</param>
+    void CountAround(Vector2 positionNum, int x, int y, Vector2 numByDirection, ObjList obj)
     {
         //方向にあるマスを数える
         if (CountSquares.isCountInit == true)
         {
-            //Debug.Log("aaaa");
-            //初期値
-            sideCount = playerPosition.myNumber;
-            
-            positionNum = playerPosition.myNumber;
-
             //数えた値を格納できるようにする
             bool isDirectionCount = false;
 
-            for (int i = 0; i < (MAX_COLUMN - 1); i++)
+            //初期値
+            // sideCount = playerPosition.myNumber;
+
+            positionNum = playerPosition.player.pNow_pos;
+            //if (isDirectionCount == false)
+            //{
+            for (int i = 0; i < MAX_COLUMN; i++)
             {
 
-                //    //列計算しやすいように一行目まで値を下げる
-                if (sideCount - MAX_COLUMN >= 0)
+                //方向に合わせた次のマスを見る
+                if (positionNum.x + x <= (MAX_COLUMN - 1) && 
+                    0<=positionNum.x&&
+                    positionNum.y + y <= (MAX_LINE - 1)&&
+                    0<=positionNum.y)
                 {
-                    sideCount -= MAX_COLUMN;
+                    positionNum += numByDirection;
+                    Debug.Log(positionNum);
+                    //Debug.Log("one more");
+                    // isDirectionCount = true;
+
                 }
-                else
-                {
-                    // Debug.Log(sideCount);
-                }
-                //Debug.Log(sideCount);
+                //  }
 
-                //方向に応じた値を足して次のマスに進める
-                positionNum += numByDirection;
 
-                //その方向の値をListで管理して値を確認しやすいようにする
-                if (Puls == true)
-                {
-                    if (positionNum < maxValue && isDirectionCount == false)
-                    {
-                            //List追加
-                            obj.floatObj.Add(positionNum);
-                    }
-                    else
-                    {
-                        //カウントを止めてforを抜ける
-                        isDirectionCount = true;
-                        break;
-                    }
-                }
-                if (Minus == true)
-                {
-                    if (positionNum > maxValue && isDirectionCount == false)
-                    {
-                        //List追加
-                        obj.floatObj.Add(positionNum);
-
-                    }
-                    else
-                    {
-                        //カウントを止めてforを抜ける
-                        isDirectionCount = true;
-                        break;
-
-                    }
-                }
-            }
-
-            //Listに上の表に置いているオブジェクトを格納する
-            for (int i = 0; i < obj.floatObj.Count; i++)
-            {
+                //Listに上の表に置いているオブジェクトを格納する
                 for (int j = 0; j < MAX_CARDS; j++)
                 {
-                    //オブジェクトの情報を変数に格納する
-                    var cardPlace = cardsPosition.Cards[j].gameobj.GetComponent<CardsDate>().cardPlace;
-                    var cardType = cardsPosition.Cards[j].gameobj.GetComponent<CardsDate>().cardType;
-
-                    if (j == obj.floatObj[i])
+                    if (cardsPosition.Cards[j].myPos == positionNum)
                     {
+                        //Debug.Log(cardsPosition.Cards[j].myPos);
+                        //Debug.Log(j);
+                        //オブジェクトの情報を変数に格納する
+                        var cardPlace = cardsPosition.Cards[j].data.cardPlace;
+                        var cardType = cardsPosition.Cards[j].data.cardType;
+
                         //黒のターン
                         if (turnScript.blackOrWhit == 1)
                         {
                             if (cardPlace == CardsDate.CARDPLACE.FRONT_CARD &&
                                 cardType == CardsDate.CARDTYPE.WHIGHT_CARD)
                             {
-
                                 //オブジェクトを追加する
-                                ListAdd(obj, j);
-                                //Debug.Log(obj.upFrontObj[i]);
+                                obj.frontObj.Add(cardsPosition.Cards[j].gameobj);
                             }
                             else
                             {
                                 //挟んでないときは追加したオブジェクトを消す
-                                if (cardType == CardsDate.CARDTYPE.WHIGHT_CARD)
+                                if (cardPlace == CardsDate.CARDPLACE.HAND_CARD)
                                 {
                                     //Listに追加した値を消す
-                                    ListClear(obj);
+                                    obj.frontObj.Clear();
                                 }
                                 //最大値を入れてカウントを強制終了する
-                                i = obj.floatObj.Count;
+                                i = 8;
                                 j = MAX_CARDS;
                                 break;
                             }
@@ -197,20 +178,18 @@ public class CountTop : MonoBehaviour
                                 cardType == CardsDate.CARDTYPE.BLACK_CARD)
                             {
                                 //オブジェクトを追加する
-                                ListAdd(obj, j);
-                                //Debug.Log(downObjList.upFrontObj[i]);
-                                //Debug.Log(obj.upFrontObj[i]);
+                                obj.frontObj.Add(cardsPosition.Cards[j].gameobj);
                             }
                             else
                             {
                                 //挟んでないときは追加したオブジェクトを消す
-                                if (cardType == CardsDate.CARDTYPE.BLACK_CARD)
+                                if (cardPlace == CardsDate.CARDPLACE.HAND_CARD)
                                 {
                                     //Listに追加した値を消す
-                                    ListClear(obj);
+                                    obj.frontObj.Clear();
                                 }
                                 //最大値を入れてカウントを強制終了する
-                                i = obj.floatObj.Count;
+                                i = 8;
                                 j = MAX_CARDS;
                                 break;
                             }
@@ -218,51 +197,9 @@ public class CountTop : MonoBehaviour
 
                     }
                 }
-                
+                isDirectionCount = false;
+
             }
         }
     }
-
-    void ListAdd(ObjList obj,int number)
-    {
-        //オブジェクトを追加する
-        if (obj == topObjList)
-        {
-            obj.upFrontObj.Add(cardsPosition.Cards[number].gameobj);
-        }
-        if (obj == downObjList)
-        {
-            obj.downFrontObj.Add(cardsPosition.Cards[number].gameobj);
-        }
-        if (obj == rightObjList)
-        {
-            obj.rightFrontObj.Add(cardsPosition.Cards[number].gameobj);
-        }
-        if (obj == leftObjList)
-        {
-            obj.leftFrontObj.Add(cardsPosition.Cards[number].gameobj);
-        }
-    }
-
-    void ListClear(ObjList obj)
-    {
-        //Listに追加した値を消す
-        if (obj == topObjList)
-        {
-            obj.upFrontObj.Clear();
-        }
-        if (obj == downObjList)
-        {
-            obj.downFrontObj.Clear();
-        }
-        if (obj == rightObjList)
-        {
-            obj.rightFrontObj.Clear();
-        }
-        if (obj == leftObjList)
-        {
-            obj.leftFrontObj.Clear();
-        }
-    }
-
 }
