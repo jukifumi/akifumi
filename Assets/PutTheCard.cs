@@ -26,6 +26,8 @@ public class PutTheCard : MonoBehaviour
     bool putOk;//置けるとき
     public bool isTurnOverOk;
 
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,14 +63,15 @@ public class PutTheCard : MonoBehaviour
             //Aキーを押したとき
             for (int i = 0; i < number; i++)
             {
+                Vector2 cardPos = cardsPosition.Cards[i].myPos;
                 //選択している場所が
-                if (i== playerPosition.myNumber )
+                if (cardPos == playerPosition.player.pNow_pos )
                 {//&& putOk == true　後で使う
 
                     //手札だったら
                     //オブジェクトの情報を変数に格納する
-                    var cardType = cardsPosition.Cards[i].gameobj.GetComponent<CardsDate>().cardType;
-                    var cardPlace = cardsPosition.Cards[i].gameobj.GetComponent<CardsDate>().cardPlace;
+                    var cardType = cardsPosition.Cards[i].data.cardType;
+                    var cardPlace = cardsPosition.Cards[i].data.cardPlace;
                     
                     //手札にあるカードを置く処理
                     if (cardPlace == CardsDate.CARDPLACE.HAND_CARD)
@@ -93,8 +96,8 @@ public class PutTheCard : MonoBehaviour
                     }
 
                     //書き換えた値をオブジェクトに返す
-                    cardsPosition.Cards[i].gameobj.GetComponent<CardsDate>().cardType = cardType;
-                    cardsPosition.Cards[i].gameobj.GetComponent<CardsDate>().cardPlace = cardPlace;
+                    cardsPosition.Cards[i].data.cardType = cardType;
+                    cardsPosition.Cards[i].data.cardPlace = cardPlace;
                 }
             }
         }
