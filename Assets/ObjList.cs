@@ -6,7 +6,14 @@ public class ObjList : MonoBehaviour
 {
     //List
     public List<GameObject> upFrontObj = new List<GameObject>();
-    public List<float> floatObj = new List<float>();
+    public List<GameObject> downFrontObj = new List<GameObject>();
+    public List<GameObject> rightFrontObj = new List<GameObject>();
+    public List<GameObject> leftFrontObj = new List<GameObject>();
+    public List<int> upCountInt = new List<int>();
+    public List<int> downCountInt = new List<int>();
+    public List<int> rightCountInt = new List<int>();
+    public List<int> leftCountInt = new List<int>();
+    //public List<int> floatObj = new List<int>();
 
     //変数
     public bool isEnd;
@@ -17,7 +24,13 @@ public class ObjList : MonoBehaviour
         //初期化
         isEnd = false;
         upFrontObj.Clear();
-        floatObj.Clear();
+        downFrontObj.Clear();
+        rightFrontObj.Clear();
+        leftFrontObj.Clear();
+        upCountInt.Clear();
+        downCountInt.Clear();
+        rightCountInt.Clear();
+        leftCountInt.Clear();
     }
 
     // Update is called once per frame

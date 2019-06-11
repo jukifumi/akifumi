@@ -102,7 +102,8 @@ public class SelectPlace : MonoBehaviour
         //置く場所を選ぶ
         //右キー
         if (Input.GetKeyDown(KeyCode.RightArrow) &&
-            player.pNow_pos.x < 7 )
+            player.pNow_pos.x < 7 
+            && isCountInit == false )
         {
             isInit = true;
             x++;
@@ -110,7 +111,8 @@ public class SelectPlace : MonoBehaviour
         }
         //左キー
         if (Input.GetKeyDown(KeyCode.LeftArrow) &&
-            player.pNow_pos.x > 0)
+            player.pNow_pos.x > 0
+            && isCountInit == false)
         {
             isInit = true;
             x--;
@@ -118,7 +120,8 @@ public class SelectPlace : MonoBehaviour
         }
         //上キー
         if (Input.GetKeyDown(KeyCode.UpArrow) &&
-            player.pNow_pos.y <7)
+            player.pNow_pos.y <7
+            && isCountInit == false)
         {
             isInit = true;
             y++;
@@ -126,7 +129,8 @@ public class SelectPlace : MonoBehaviour
         }
         //下キー
         if (Input.GetKeyDown(KeyCode.DownArrow) &&
-            player.pNow_pos.y > 0)
+            player.pNow_pos.y > 0
+            && isCountInit == false)
         {
             isInit = true;
             y--;
