@@ -33,11 +33,6 @@ public class CountTop : MonoBehaviour
     }
 
 
-    //bool isDirectionCount; //数えた値を格納するときに制御するフラグ
-    bool isPlusCount;      //正の数を使うとき
-    bool isMinusCount;     //負の数を使うとき
-    bool isNone;           //フラグを使わないとき
-
     //静的定数
     private const int MAX_CARDS = 64; //複製するオブジェクトの最大数
     private const int MAX_COLUMN = 8; //列の最大数
@@ -59,10 +54,6 @@ public class CountTop : MonoBehaviour
         //変数初期化
         sideCount = 0;
 
-        //isDirectionCount = false;
-        isMinusCount = true;
-        isPlusCount = true;
-        isNone = false;
 
         //ポジションをとる
         //positionNum = playerPosition.myNumber;
@@ -83,15 +74,14 @@ public class CountTop : MonoBehaviour
 
 
         //関数呼び出し
-        //InsertList();
-        //cardTypeJudgment();
+
         //バグ
         //なぜか一個だけしか実装できない
         //右は完全にできない（maxValueの引数の値が違うかも）
-        CountAround(topPos,0,1,Vget(0,1), topObjList);//上
-        CountAround(downPos, 0,-1,Vget(0,-1), downObjList);//下
-        CountAround(rightPos, 1, 0, Vget(1, 0), rightObjList);//右
-        CountAround(leftPos,-1,0, Vget(-1,0), leftObjList);//左
+        CountAround(topPos,Vget(0,1), topObjList);//上
+        CountAround(downPos, Vget(0,-1), downObjList);//下
+        CountAround(rightPos, Vget(1, 0), rightObjList);//右
+        CountAround(leftPos, Vget(-1,0), leftObjList);//左
         CountSquares.isCountInit = false;
 
 
@@ -101,48 +91,39 @@ public class CountTop : MonoBehaviour
     /// <summary>
     /// 8方向のマスを限界まで数える
     /// </summary>
-    /// <param name="numByDirection">その方向に足す値</param>
     /// <param name="positionNum">ポジションのコピー</param>
+    /// <param name="x">ｘに足す値</param>
+    /// <param name="y">ｙに足す値</param>
+    /// <param name="numByDirection">その方向に足す値</param>
     /// <param name="obj">オブジェクトの情報を持ってくる</param>
-    void CountAround(Vector2 positionNum, int x, int y, Vector2 numByDirection, ObjList obj)
+    void CountAround(Vector2 positionNum, Vector2 numByDirection, ObjList obj)
     {
         //方向にあるマスを数える
         if (CountSquares.isCountInit == true)
         {
-            //数えた値を格納できるようにする
-            bool isDirectionCount = false;
 
             //初期値
             // sideCount = playerPosition.myNumber;
 
             positionNum = playerPosition.player.pNow_pos;
-            //if (isDirectionCount == false)
-            //{
             for (int i = 0; i < MAX_COLUMN; i++)
             {
 
                 //方向に合わせた次のマスを見る
-                if (positionNum.x + x <= (MAX_COLUMN - 1) && 
-                    0<=positionNum.x&&
-                    positionNum.y + y <= (MAX_LINE - 1)&&
-                    0<=positionNum.y)
+                if (positionNum.x + numByDirection.x <= (MAX_COLUMN - 1) && 
+                    0 <= positionNum.x &&
+                    positionNum.y + numByDirection.y <= (MAX_LINE - 1) &&
+                    0 <= positionNum.y)
                 {
                     positionNum += numByDirection;
-                    Debug.Log(positionNum);
-                    //Debug.Log("one more");
-                    // isDirectionCount = true;
-
                 }
-                //  }
-
 
                 //Listに上の表に置いているオブジェクトを格納する
                 for (int j = 0; j < MAX_CARDS; j++)
                 {
                     if (cardsPosition.Cards[j].myPos == positionNum)
                     {
-                        //Debug.Log(cardsPosition.Cards[j].myPos);
-                        //Debug.Log(j);
+
                         //オブジェクトの情報を変数に格納する
                         var cardPlace = cardsPosition.Cards[j].data.cardPlace;
                         var cardType = cardsPosition.Cards[j].data.cardType;
@@ -197,8 +178,6 @@ public class CountTop : MonoBehaviour
 
                     }
                 }
-                isDirectionCount = false;
-
             }
         }
     }
