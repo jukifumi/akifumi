@@ -29,8 +29,16 @@ public class CardsDate : MonoBehaviour
         JOKER_CARD,    // 2 = ジョーカー
     }
 
+    //public enum CARDCONDITION
+    //{
+    //    NONE_CARD,    // 0 = 何もない
+    //    SELECT_CARD,  // 1 = 選んでいるところ
+    //    CHOICE_CARD,  // 3 = 置けるところ
+    //}
+
     public CARDPLACE cardPlace;
     public CARDTYPE cardType;
+    //public CARDCONDITION cardCondition;
 
     // Start is called before the first frame update
     void Start()

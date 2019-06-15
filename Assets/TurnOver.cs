@@ -2,69 +2,66 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//////////////////////////////////////
-//挟んだカードをひっくり返す処理
-//////////////////////////////////////
+/// <summary>
+/// 挟んだカードをひっくり返す処理
+/// </summary>
 public class TurnOver : MonoBehaviour
 {
     //script
     SelectPlace playerPosition;
-    PutTheCard  putTheCardScript;
-    CollCreate  cardsPosition;
-    CardsDate   cardsDate;
-    CountTop    counttop;
-    ObjList     objList;
-    Turn        turnScript;
+    PutTheCard putTheCard;
+    CollCreate cardsPosition;
+    CardsDate cardsDate;
+    CountTop countTop;
+    ObjList objList;
+    Turn turnScript;
 
     public bool isListAdd;//追加するとき
     // Start is called before the first frame update
     void Start()
     {
-        putTheCardScript = GetComponent<PutTheCard>();
-        playerPosition   = GetComponent<SelectPlace>();
-        cardsPosition    = GetComponent<CollCreate>();
-        cardsDate        = GetComponent<CardsDate>();
-        counttop         = GetComponent<CountTop>();
-        objList          = GetComponent<ObjList>();
+        putTheCard = GetComponent<PutTheCard>();
+        playerPosition = GetComponent<SelectPlace>();
+        cardsPosition = GetComponent<CollCreate>();
+        cardsDate = GetComponent<CardsDate>();
+        countTop = GetComponent<CountTop>();
+        objList = GetComponent<ObjList>();
     }
 
     // Update is called once per frame
     void Update()
     {
         turnScript = GetComponent<Turn>();
-
+        //Debug.Log(objList.frontObj.Count);
         //ひっくり返る
-        if (putTheCardScript.isTurnOverOk == true)
+        if (countTop.isTurnOverStart == true)
         {
-            for (int i = 0; i < objList.frontObj.Count; i++)
-            {//リストに入っているオブジェクトだけ処理する
+            objRead(countTop.topObjList);
+            objRead(countTop.downObjList);
+            objRead(countTop.rightObjList);
+            objRead(countTop.leftObjList);
+            putTheCard.isCountStart = false;
+            countTop.isTurnOverStart = false;
 
-                //Debug.Log(objList.upFrontObj[i]);
-                objRead(i);
-            }
-            putTheCardScript.isTurnOverOk = false;
         }
     }
 
     //読み込んで見やすいようにする
-    void objRead(int p)
+    void objRead(ObjList objList)
     {
-        if (turnScript.blackOrWhit == 0)//偶数のターン
-        {//黒色にする
+        for (int i = 0; i < objList.frontObj.Count; i++)
+        {//リストに入っているオブジェクトだけ処理する
+            if (turnScript.blackOrWhit == 0)//偶数のターン
+            {//黒色にする
 
-            counttop.topObjList.frontObj[p].GetComponent<CardsDate>().cardType   = CardsDate.CARDTYPE.BLACK_CARD;
-            counttop.downObjList.frontObj[p].GetComponent<CardsDate>().cardType  = CardsDate.CARDTYPE.BLACK_CARD;
-            counttop.rightObjList.frontObj[p].GetComponent<CardsDate>().cardType = CardsDate.CARDTYPE.BLACK_CARD;
-            counttop.leftObjList.frontObj[p].GetComponent<CardsDate>().cardType  = CardsDate.CARDTYPE.BLACK_CARD;
+                objList.frontObj[i].GetComponent<CardsDate>().cardType = CardsDate.CARDTYPE.BLACK_CARD;
 
-        }
-        else if (turnScript.blackOrWhit == 1)//奇数のターン
-        {//白色にする
+            }
+            else if (turnScript.blackOrWhit == 1)//奇数のターン
+            {//白色にする
 
-            counttop.topObjList.frontObj[p].GetComponent<CardsDate>().cardType   = CardsDate.CARDTYPE.WHIGHT_CARD;
-            counttop.downObjList.frontObj[p].GetComponent<CardsDate>().cardType  = CardsDate.CARDTYPE.WHIGHT_CARD;
-            counttop.rightObjList.frontObj[p].GetComponent<CardsDate>().cardType = CardsDate.CARDTYPE.WHIGHT_CARD;
-            counttop.leftObjList.frontObj[p].GetComponent<CardsDate>().cardType  = CardsDate.CARDTYPE.WHIGHT_CARD;
+                objList.frontObj[i].GetComponent<CardsDate>().cardType = CardsDate.CARDTYPE.WHIGHT_CARD;
+            }
         }
     }
 }

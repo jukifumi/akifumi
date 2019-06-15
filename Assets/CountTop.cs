@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//////////////////////////////////////////////////////////
-//カードを置いた位置から8方向数えてひっくり返すカードを見つける
-////////////////////////////////////////////////////////////
+/// <summary>
+/// カードを置いた位置から8方向数えてひっくり返すカードを見つける
+/// </summary>
 public class CountTop : MonoBehaviour
 {
     //script
     public ObjList topObjList, downObjList, rightObjList, leftObjList;
-    SelectPlace playerPosition, CountSquares;
+    PlayerManager player, lendVariable;
+    KeyPut keyPut;
+    PutTheCard putTheCard;
     CollCreate cardsPosition;
     Turn turnScript;
 
     //変数
-    int sideCount; //横の残りマス数
+    public bool isTurnOverStart;
 
     //8方向のポジション
     //とりあえす４方向
@@ -22,15 +24,6 @@ public class CountTop : MonoBehaviour
     Vector2 downPos;
     Vector2 rightPos;
     Vector2 leftPos;
-
-    //二次元
-    Vector2 Vget(int x, int y)
-    {
-        Vector2 vector;
-        vector.x = x;
-        vector.y = y;
-        return vector;
-    }
 
 
     //静的定数
@@ -42,8 +35,10 @@ public class CountTop : MonoBehaviour
     void Start()
     {
         //初期化
-        playerPosition = GetComponent<SelectPlace>();
-        CountSquares = GetComponent<SelectPlace>();
+        player = GetComponent<PlayerManager>();//プレイヤー情報
+        lendVariable = GetComponent<PlayerManager>(); //変数を貸すだけ
+        keyPut = GetComponent<KeyPut>();
+        putTheCard = GetComponent<PutTheCard>();
         cardsPosition = GetComponent<CollCreate>();
         topObjList = GetComponent<ObjList>();
         downObjList = GetComponent<ObjList>();
@@ -52,15 +47,14 @@ public class CountTop : MonoBehaviour
 
 
         //変数初期化
-        sideCount = 0;
-
+        isTurnOverStart = false;
 
         //ポジションをとる
         //positionNum = playerPosition.myNumber;
-        topPos = Vget(0, 0);
-        downPos = Vget(0, 0);
-        rightPos = Vget(0, 0);
-        leftPos = Vget(0, 0);
+        topPos   = lendVariable.Vget(0, 0);
+        downPos  = lendVariable.Vget(0, 0);
+        rightPos = lendVariable.Vget(0, 0);
+        leftPos  = lendVariable.Vget(0, 0);
 
     }
 
@@ -78,43 +72,36 @@ public class CountTop : MonoBehaviour
         //バグ
         //なぜか一個だけしか実装できない
         //右は完全にできない（maxValueの引数の値が違うかも）
-        CountAround(topPos,Vget(0,1), topObjList);//上
-        CountAround(downPos, Vget(0,-1), downObjList);//下
-        CountAround(rightPos, Vget(1, 0), rightObjList);//右
-        CountAround(leftPos, Vget(-1,0), leftObjList);//左
-        CountSquares.isCountInit = false;
-
-
-
+        CountAround(topPos,   lendVariable.Vget(0, 1), topObjList);//上
+        //CountAround(downPos,  lendVariable.Vget(0,-1), downObjList);//下
+        //CountAround(rightPos, lendVariable.Vget(1, 0), rightObjList);//右
+        //CountAround(leftPos,  lendVariable.Vget(-1,0), leftObjList);//左
+        isTurnOverStart = true;
+        //putTheCard.isCountStart = false;
     }
 
     /// <summary>
     /// 8方向のマスを限界まで数える
     /// </summary>
     /// <param name="positionNum">ポジションのコピー</param>
-    /// <param name="x">ｘに足す値</param>
-    /// <param name="y">ｙに足す値</param>
     /// <param name="numByDirection">その方向に足す値</param>
     /// <param name="obj">オブジェクトの情報を持ってくる</param>
     void CountAround(Vector2 positionNum, Vector2 numByDirection, ObjList obj)
     {
-        //方向にあるマスを数える
-        if (CountSquares.isCountInit == true)
+        //各方向にあるマスを数える
+        if (putTheCard.isCountStart == true)
         {
-
             //初期値
-            // sideCount = playerPosition.myNumber;
-
-            positionNum = playerPosition.player.pNow_pos;
+            positionNum = player.position.pNow_pos;
             for (int i = 0; i < MAX_COLUMN; i++)
             {
-
                 //方向に合わせた次のマスを見る
                 if (positionNum.x + numByDirection.x <= (MAX_COLUMN - 1) && 
-                    0 <= positionNum.x &&
+                    0 <= positionNum.x + numByDirection.x &&
                     positionNum.y + numByDirection.y <= (MAX_LINE - 1) &&
-                    0 <= positionNum.y)
+                    0 <= positionNum.y + numByDirection.y)
                 {
+                    Debug.Log("aaaaaaaa");
                     positionNum += numByDirection;
                 }
 
@@ -136,6 +123,7 @@ public class CountTop : MonoBehaviour
                             {
                                 //オブジェクトを追加する
                                 obj.frontObj.Add(cardsPosition.Cards[j].gameobj);
+                                //Debug.Log(obj.frontObj[i]);
                             }
                             else
                             {

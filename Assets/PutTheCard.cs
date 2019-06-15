@@ -10,7 +10,7 @@ using UnityEngine;
 public class PutTheCard : MonoBehaviour
 {
     //script
-    SelectPlace playerPosition;
+    PlayerManager player;
     CollCreate  cardsPosition;
     Turn        turnScript;
 
@@ -24,17 +24,22 @@ public class PutTheCard : MonoBehaviour
     bool canLeft;
 
     bool putOk;//置けるとき
-    public bool isTurnOverOk;
+    public bool isCountStart;
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        playerPosition  = GetComponent<SelectPlace>();
+        player  = GetComponent<PlayerManager>();
         cardsPosition   = GetComponent<CollCreate>();
 
-        isTurnOverOk    = false;
+        isCountStart = false;
+
+        canTop = false;
+        canDown=false;
+        canRight=false;
+        canLeft=false;
     }
 
     // Update is called once per frame
@@ -44,80 +49,84 @@ public class PutTheCard : MonoBehaviour
         //毎フレームしないとターンが変わらない
         turnScript = GetComponent<Turn>();
 
-        //関数呼び出し
-        //後で使う
-        //AroundStateTheCanLeave(canTop, 8);
-        //AroundStateTheCanLeave(canDown, -8);
-        //AroundStateTheCanLeave(canRight, 1);
-        //AroundStateTheCanLeave(canLeft, -1);
-
-        //フラグを立てて置けるようにする
-        if (canTop == true || canDown == true || canRight == true || canLeft == true)
-        {
-            putOk = true;
-        }
-
         //カードを置く
         if (Input.GetKeyDown(KeyCode.A) == true)
         {
-            //Aキーを押したとき
-            for (int i = 0; i < number; i++)
-            {
-                Vector2 cardPos = cardsPosition.Cards[i].myPos;
-                //選択している場所が
-                if (cardPos == playerPosition.player.pNow_pos )
-                {//&& putOk == true　後で使う
+            //canTop   = AroundCanLeave(canTop, player.Vget(0, 1));
+            //canDown  = AroundCanLeave(canDown, player.Vget(0, -1));
+            //canRight = AroundCanLeave(canRight, player.Vget(1, 0));
+            //canLeft  = AroundCanLeave(canLeft, player.Vget(-1, 0));
 
-                    //手札だったら
-                    //オブジェクトの情報を変数に格納する
-                    var cardType = cardsPosition.Cards[i].data.cardType;
-                    var cardPlace = cardsPosition.Cards[i].data.cardPlace;
-                    
-                    //手札にあるカードを置く処理
-                    if (cardPlace == CardsDate.CARDPLACE.HAND_CARD)
-                    {
-                        //表において
-                        cardPlace = CardsDate.CARDPLACE.FRONT_CARD;
+            //フラグを立てて置けるようにする
+            //if (canTop == true || canDown == true || canRight == true || canLeft == true)
+            //{
+            //    putOk = true;
+            //    Debug.Log("aaaaa");
+            //}
 
-                        if (turnScript.blackOrWhit == 0)
+            //if (putOk == true)
+            //{
+                //Debug.Log("aaaaaaaaa");
+                //Aキーを押したとき
+                for (int i = 0; i < number; i++)
+                {
+                    Vector2 cardPos = cardsPosition.Cards[i].myPos;
+                    //選択している場所が
+
+                    if (cardPos == player.position.pNow_pos)
+                    {//&& putOk == true　後で使う
+
+                        //手札だったら
+                        //オブジェクトの情報を変数に格納する
+                        var cardType = cardsPosition.Cards[i].data.cardType;
+                        var cardPlace = cardsPosition.Cards[i].data.cardPlace;
+
+                        //手札にあるカードを置く処理
+                        if (cardPlace == CardsDate.CARDPLACE.HAND_CARD)
                         {
-                            //黒色にする
-                            cardType = CardsDate.CARDTYPE.BLACK_CARD;
-                            isTurnOverOk = true;
+                            //表において
+                            cardPlace = CardsDate.CARDPLACE.FRONT_CARD;
 
-                        }
-                        else
-                        {
-                            //白色にする
-                            cardType = CardsDate.CARDTYPE.WHIGHT_CARD;
-                            isTurnOverOk = true;
+                            if (turnScript.blackOrWhit == 0)
+                            {
+                                //黒色にする
+                                cardType = CardsDate.CARDTYPE.BLACK_CARD;
+                                isCountStart = true;
 
+                            }
+                            else
+                            {
+                                //白色にする
+                                cardType = CardsDate.CARDTYPE.WHIGHT_CARD;
+                                isCountStart = true;
+
+                            }
                         }
+
+                        //書き換えた値をオブジェクトに返す
+                        cardsPosition.Cards[i].data.cardType = cardType;
+                        cardsPosition.Cards[i].data.cardPlace = cardPlace;
                     }
-
-                    //書き換えた値をオブジェクトに返す
-                    cardsPosition.Cards[i].data.cardType = cardType;
-                    cardsPosition.Cards[i].data.cardPlace = cardPlace;
-                }
+               // }
             }
         }
     }
 
     //周りの状態から置いていいか決める
     //後で使う
-    //void AroundStateTheCanLeave(bool canPut,int ShiftedPos)
+    //bool AroundCanLeave( bool canPut, Vector2 ShiftedPos)
     //{
     //    canPut = false;
 
-    //    for (int i = 0; i < number; i++)
-    //    {
-    //        //選択している場所が
-    //        if (i == playerPosition.myNumber + ShiftedPos)
+    //    //選択している場所が
+    //        for (int i = 0; i < number; i++)
+    //        {
+    //            if(player.position.pNow_pos + ShiftedPos == cardsPosition.Cards[i].myPos)
     //        {
     //            //手札だったら
     //            //オブジェクトの情報を変数に格納する
-    //            var cardType  = cardsPosition.Cards[i].gameobj.GetComponent<CardsDate>().cardType;
-    //            var cardPlace = cardsPosition.Cards[i].gameobj.GetComponent<CardsDate>().cardPlace;
+    //            var cardType = cardsPosition.Cards[i].data.cardType;
+    //            var cardPlace = cardsPosition.Cards[i].data.cardPlace;
 
     //            //手札にあるカードを置く処理
     //            if (cardPlace == CardsDate.CARDPLACE.FRONT_CARD)
@@ -125,18 +134,27 @@ public class PutTheCard : MonoBehaviour
     //                if (turnScript.blackOrWhit == 0 &&
     //                cardType == CardsDate.CARDTYPE.BLACK_CARD)
     //                {
-    //                    Debug.Log("aaaaaaaaa");
+    //                    //Debug.Log("aaaaaaaaa");
     //                    canPut = true;
-
     //                }
-    //                else if (turnScript.blackOrWhit == 1 &&
+    //                else
+    //                {
+    //                    canPut = false;
+    //                }
+    //                if (turnScript.blackOrWhit == 1 &&
     //                    cardType == CardsDate.CARDTYPE.WHIGHT_CARD)
     //                {
+    //                    //Debug.Log("aaaaaaaaa");
     //                    canPut = true;
+    //                }
+    //                else
+    //                {
+    //                    canPut = false;
     //                }
     //            }
     //        }
     //    }
+    //    return canPut;
     //}
 
     //番号を持ってくる

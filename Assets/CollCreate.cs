@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-////////////////////////////////////////////////////
-//盤上に存在するためのカードを全部複製する
-//複製したカードをマス目に合うように幅を空けて配置する
-//複製したカードに初期情報を入れる
-////////////////////////////////////////////////////
+/// <summary>
+/// 盤上に存在するためのカードを全部複製する
+///複製したカードをマス目に合うように幅を空けて配置する
+///複製したカードに初期情報を入れる
+/// </summary>
 public class CollCreate : MonoBehaviour
 {
     //オブジェクト
@@ -14,8 +14,7 @@ public class CollCreate : MonoBehaviour
     GameObject[] collBox;
 
     //スクリプト
-    BoardData cardPosition;
-    CardsDate cardsDate;
+    PlayerManager lendVariable;//変数を貸すだけ
     PutTheCard putTheCard;
 
     public Card[] Cards = new Card[64];
@@ -54,6 +53,7 @@ public class CollCreate : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        lendVariable = GetComponent<PlayerManager>();
         putTheCard = GetComponent<PutTheCard>();
 
         //オブジェクトを複製する
@@ -64,7 +64,7 @@ public class CollCreate : MonoBehaviour
             Cards[i].gameobj.GetComponent<MeshRenderer>().enabled = false;  //オブジェクトを見えないようにする
             Cards[i].gameobj.AddComponent<CardsDate>();                     //カードにCardsDateのスクリプトをアタッチする
             Cards[i].gameobj.AddComponent<MaterialProcessing>();            //カードにMaterialProcessingのスクリプトをアタッチする
-            Cards[i].myPos = Vget(row, col);                              //カードにポジションを与える
+            Cards[i].myPos = lendVariable.Vget(row, col);                              //カードにポジションを与える
             Cards[i].select = false;
 
             Cards[i].data = Cards[i].gameobj.GetComponent<CardsDate>();
@@ -109,8 +109,8 @@ public class CollCreate : MonoBehaviour
                 cardPlace = CardsDate.CARDPLACE.FRONT_CARD;
             }
 
-            Cards[i].gameobj.GetComponent<CardsDate>().cardType = cardType;
-            Cards[i].gameobj.GetComponent<CardsDate>().cardPlace = cardPlace;
+            Cards[i].data.cardType = cardType;
+            Cards[i].data.cardPlace = cardPlace;
 
         }
     }

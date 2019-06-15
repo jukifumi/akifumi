@@ -10,37 +10,13 @@ using UnityEngine;
 public class SelectPlace : MonoBehaviour
 {
     //script
+    PlayerManager player;
     CollCreate cardsPosition;
-    ObjList    objList;
-    Turn       turnScript;
 
     //変数
 
-    int x;
-    int y;
-    public int myNumber;
-
     bool isPut;//置く
-    bool isInit;//初期化するときのフラグ
     public bool isCountInit;//数えている周りのマス目を初期化するフラグ
-
-    //構造体の定義
-    public Player player ;
-
-    //プレイヤーに二次元のポジションを持たせる
-    public struct Player
-    {
-        public Vector2 pNow_pos;
-    }
-
-    //二次元
-    Vector2 Vget(int x, int y)
-    {
-        Vector2 vector;
-        vector.x = x;
-        vector.y = y;
-        return vector;
-    }
 
 
     //静的定数
@@ -50,33 +26,21 @@ public class SelectPlace : MonoBehaviour
     void Start()
     {
         //初期化
+        player = GetComponent<PlayerManager>();
         cardsPosition = GetComponent<CollCreate>();
-        objList       = GetComponent<ObjList>();
 
         //変数初期化
         isCountInit = true ;
         isPut = false;
 
-        x = 0;
-        y = 0;
-        myNumber = 0;
-
-        //プレイヤーのポジション
-        player.pNow_pos = Vget(x, y);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //ターンスクリプトコンポーネント
-        turnScript = GetComponent<Turn>();
 
         //関数読み込み
         SelectState();
-        ChooseALocation();
-
-        //自分の選んでいる場所を決める
-        player.pNow_pos = Vget(x, y);
 
     }
 
@@ -86,7 +50,7 @@ public class SelectPlace : MonoBehaviour
         //自分が選択している場所と同じ場所にあるオブジェクトを選択している状態にする
         for (int i = 0; i < MAX_CARDS; i++)
         {
-            if (player.pNow_pos == cardsPosition.Cards[i].myPos)
+            if (player.position.pNow_pos == cardsPosition.Cards[i].myPos)
             {
                 //選択している
                 cardsPosition.Cards[i].select = true;
@@ -99,67 +63,4 @@ public class SelectPlace : MonoBehaviour
         }
     }
 
-    //場所を選択する処理
-    void ChooseALocation()
-    {
-        //置く場所を選ぶ
-        //右キー
-        if (Input.GetKeyDown(KeyCode.RightArrow) &&
-            player.pNow_pos.x < 7 
-            && isCountInit == false )
-        {
-            isInit = true;
-            x++;
-            isCountInit = true;
-        }
-        //左キー
-        if (Input.GetKeyDown(KeyCode.LeftArrow) &&
-            player.pNow_pos.x > 0
-            && isCountInit == false)
-        {
-            isInit = true;
-            x--;
-            isCountInit = true;
-        }
-        //上キー
-        if (Input.GetKeyDown(KeyCode.UpArrow) &&
-            player.pNow_pos.y <7
-            && isCountInit == false)
-        {
-            isInit = true;
-            y++;
-            isCountInit = true;
-        }
-        //下キー
-        if (Input.GetKeyDown(KeyCode.DownArrow) &&
-            player.pNow_pos.y > 0
-            && isCountInit == false)
-        {
-            isInit = true;
-            y--;
-            isCountInit = true;
-        }
-
-        //初期化
-        if(isInit == true)
-        {
-            objList.frontObj.Clear();
-            //objList.floatObj.Clear();
-            isInit = false;
-        }
-
-        //番号をとる
-        //myNumber = MyNum(x, y);
-        //Debug.Log(myNumber);
-    }
-
-    ////番号をとる
-    //int MyNum(int xNum, int yNum)
-    //{
-    //    int num = 0;
-
-    //    num = (yNum * 8) + xNum;
-
-    //    return num;
-    //}
 }
